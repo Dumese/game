@@ -2,6 +2,7 @@
 import sys
 import pygame
 import musicPlayer
+import playView
 
 
 class Index():
@@ -11,22 +12,13 @@ class Index():
         # 初始化pygame
         pygame.init()
 
-        player = musicPlayer.Music_Player('mp3\index_bm.mp3')
+        player = musicPlayer.Music_Player('mp3\index_bm.mp3',-1)
+        player.play()
 
-        '''
-        file = 'mp3\index_bm.mp3'
-        pygame.mixer.init()  # mixer的初始化
-        print("test")  # 输出提示要播放的歌曲
-        music = pygame.mixer.music.load(file)  # 载入一个音乐文件用于播放
-        '''
+        play = playView.PlayView()
+
 
         while True:
-
-            '''
-                        if pygame.mixer.music.get_busy() == False:  # 检查是否正在播放音乐
-                pygame.mixer.music.play()  # 开始播放音乐流
-            '''
-            player.play()
 
             # 设置标题
             pygame.display.set_caption("混元形意五子棋")
@@ -50,10 +42,12 @@ class Index():
                     # 卸载所有的模块
                     pygame.quit()
                     sys.exit()
-                    '''                
-                    if event.type == pygame.MOUSEBUTTONDOWN:
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     if mouse_x > 160 and mouse_x < 360 and mouse_y < 600 and mouse_y > 525:
-                        play()
-                    '''
+                        player.stop()
+                        play.show()
+
+
             pygame.display.flip()
