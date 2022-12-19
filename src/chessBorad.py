@@ -34,5 +34,5 @@ class Chessborad():
         #绘制圆点
         for pos_x in (145,379,613):
             for pos_y in (145,379,613):
-                pygame.draw.circle(borad, color.Color.BLACK, (pos_x, pos_y), 4, 4)
+                pygame.draw.circle(borad, color.Color.BLACK, (pos_x, pos_y), 6, 6)
         return borad
