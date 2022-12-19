@@ -3,8 +3,6 @@ import color
 
 #棋盘类
 class Chessborad():
-    def __init__(self) -> None:
-        pass
 
     def show(self):
         #设置棋盘大小
