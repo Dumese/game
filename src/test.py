@@ -1,13 +1,37 @@
-# -*-coding:GBK -*-
 import pygame
 
-file = 'mp3\index_bm.mp3'  # Òª²¥·ÅµÄ¸èÇú±¾µØµØÖ·
-pygame.mixer.init()  # mixerµÄ³õÊ¼»¯
-print("ÁÖÖ¾ìÅ - Ã»Àë¿ª¹ı")  # Êä³öÌáÊ¾Òª²¥·ÅµÄ¸èÇú
-pygame.mixer.music.load(file)  # ÔØÈëÒ»¸öÒôÀÖÎÄ¼şÓÃÓÚ²¥·Å
+print(pygame.font.get_fonts())
+import sys
+import pygame
+
+# åˆå§‹åŒ–
+pygame.init()
+screen = pygame.display.set_mode((600,400))
+#å¡«å……ä¸»çª—å£çš„èƒŒæ™¯é¢œè‰²
+screen.fill((20,90,50))
+#è®¾ç½®çª—å£æ ‡é¢˜
+pygame.display.set_caption('cè¯­è¨€ä¸­æ–‡ç½‘')
+
+
+f = pygame.font.Font('../font/font.ttf',50)
+
+# render(text, antialias, color, background=None) -> Surface
+text = f.render("ç½‘å€ï¼šc.biancheng.net",True,(255,0,0),(255,255,255))
+
+#è·å¾—æ˜¾ç¤ºå¯¹è±¡çš„ rectåŒºåŸŸå¤§å°
+textRect =text.get_rect()
+
+#è®¾ç½®æ˜¾ç¤ºå¯¹è±¡å±…ä¸­
+textRect.center = (300,200)
+screen.blit(text,textRect)
 
 while True:
-    # ¼ì²éÒôÀÖÁ÷²¥·Å£¬ÓĞ·µ»ØTrue£¬Ã»ÓĞ·µ»ØFalse
-    # Èç¹ûÃ»ÓĞÒôÀÖÁ÷ÔòÑ¡Ôñ²¥·Å
-    if not pygame.mixer.music.get_busy():  # ¼ì²éÊÇ·ñÕıÔÚ²¥·ÅÒôÀÖ
-        pygame.mixer.music.play()  # ¿ªÊ¼²¥·ÅÒôÀÖÁ÷
+    # å¾ªç¯è·å–äº‹ä»¶ï¼Œç›‘å¬äº‹ä»¶
+    for event in pygame.event.get():
+        # åˆ¤æ–­ç”¨æˆ·æ˜¯å¦ç‚¹äº†å…³é—­æŒ‰é’®
+        if event.type == pygame.QUIT:
+            #å¸è½½æ‰€æœ‰pygameæ¨¡å—
+            pygame.quit()
+            #ç»ˆæ­¢ç¨‹åº
+            sys.exit()
+    pygame.display.flip() #æ›´æ–°å±å¹•å†…å®¹
