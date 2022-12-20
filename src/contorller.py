@@ -6,7 +6,7 @@ class pos():
     pos_y = -1
     type = -1
 
-    over_pos = (pos_x,pos_y)
+    over_pos = [(pos_x,pos_y)]
 
     over_pos_type = [(pos_x,pos_y),type]
 

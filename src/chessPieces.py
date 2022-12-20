@@ -18,8 +18,9 @@ class ChessPieces():
 
     # 落子
     def addChessPieces(self,pos_x,pos_y,bg,type):
-        contorller.control.over_pos[(pos_x,pos_y)] = type
+        contorller.control.over_pos.append((pos_x, pos_y))
+        contorller.control.over_pos_type.append((pos_x, pos_y), type)
         pygame.draw.circle(bg, color.Color.BLACK, (pos_x, pos_y), 6, 6)
 
     # 判断是否获胜
-    #def win(self):
+   # def win(self):
