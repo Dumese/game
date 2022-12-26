@@ -14,7 +14,7 @@ class Index():
         # 初始化pygame
         pygame.init()
 
-        player = musicPlayer.Music_Player('../mp3\index_bm.mp3', -1)
+        player = musicPlayer.Music_Player('../mp3/index_bm.mp3', -1)
         player.play()
 
         play = playView.PlayView()
@@ -23,12 +23,6 @@ class Index():
 
         font = pygame.font.Font('../font/font.ttf', 50)
         text = font.render("规则说明", True, color.Color.RED, color.Color.WOOD)
-
-        '''
-        # 获得显示对象的 rect区域大小
-        textRect = text.get_rect()
-        print(textRect)
-        '''
 
         while True:
 

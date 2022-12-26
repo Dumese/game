@@ -1,72 +1,235 @@
 #游戏界面
 import sys
-
 import pygame
-import chessBorad
-import msgView
-import color
+import musicPlayer
+
 
 class PlayView():
-
-    borad = chessBorad.Chessborad().show()
-    msgview = msgView.MsgView.show(None)
     def show(self):
-        while True:
-            pygame.display.set_caption("混元形意五子棋")
-            screen_width = 1200
-            screen_height = 797
-            screen = pygame.display.set_mode((screen_width, screen_height))
-            screen.blit(self.borad, (0, 0))
-            screen.blit(self.msgview,(797,0))
 
-            # 获取循环事件，监听事件
+        player_bg = musicPlayer.Music_Player('../mp3/test.mp3', -1)
+        player_bg.volume(0.1)
+
+        player_bg.play()
+
+        def black(x, y):
+            a = 20
+            b = 20
+            c = 20
+            d = 0
+            for i in range(50):
+                pygame.draw.circle(screen, (a, b, c), [19.5 + 32 * x, 19.5 + 32 * y], (10 / (d - 5) + 10) * 1.6)
+                a += 1
+                b += 1
+                c += 1
+                d += 0.08
+            pygame.display.update()
+
+        def white(x, y):
+            a = 170
+            b = 170
+            c = 170
+            d = 0
+            for i in range(50):
+                pygame.draw.circle(screen, (a, b, c), [19.5 + 32 * x, 19.5 + 32 * y], (10 / (d - 5) + 10) * 1.6)
+                a += 1
+                b += 1
+                c += 1
+                d += 0.08
+            pygame.display.update()
+
+        screen = pygame.display.set_mode((615, 615))
+
+        def end():
+            pygame.font.init()
+            text = font1.render("{}赢了".format(wb1), True, (0, 0, 0))
+            textRect = text.get_rect()
+            textRect.center = (307.5, 307.5)
+            screen.blit(text, textRect)
+            pygame.display.flip()
+            player_bg.stop()
+            print(wb1)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        player = musicPlayer.Music_Player('../mp3/index_bm.mp3', -1)
+                        player.volume(1)
+                        player.play()
+                        return False
+
+
+        pygame.display.set_caption('博弈中')
+        screen.fill("#DD954F")
+        a = pygame.Surface((603, 603), flags=pygame.HWSURFACE)
+        a.fill(color='#121010')
+        b = pygame.Surface((585, 585), flags=pygame.HWSURFACE)
+        b.fill(color="#DD954F")
+        c = pygame.Surface((579, 579), flags=pygame.HWSURFACE)
+        c.fill(color='#121010')
+        d = pygame.Surface((576, 576), flags=pygame.HWSURFACE)
+        d.fill(color="#DD954F")
+        e = pygame.Surface((31, 31), flags=pygame.HWSURFACE)
+        e.fill(color="#DD954F")
+        screen.blit(a, (6.5, 6.5))
+        screen.blit(b, (15, 15))
+        screen.blit(c, (18, 18))
+        for j in range(18):
+            for i in range(18):
+                screen.blit(e, (20 + 32 * i, 20 + 32 * j))
+        alist = []
+        for j in range(19):
+            alistone = []
+            for i in range(19):
+                alistone.append(0)
+            alist.append(alistone)
+        pygame.draw.circle(screen, '#121010', [307.5, 307.5], 5)
+        pygame.draw.circle(screen, '#121010', [115.5, 307.5], 5)
+        pygame.draw.circle(screen, '#121010', [499.5, 307.5], 5)
+        pygame.draw.circle(screen, '#121010', [115.5, 499.5], 5)
+        pygame.draw.circle(screen, '#121010', [499.5, 499.5], 5)
+        pygame.draw.circle(screen, '#121010', [115.5, 115.5], 5)
+        pygame.draw.circle(screen, '#121010', [499.5, 115.5], 5)
+        pygame.draw.circle(screen, '#121010', [307.5, 499.5], 5)
+        pygame.draw.circle(screen, '#121010', [307.5, 115.5], 5)
+        pygame.display.flip()
+        wb = "black"
+        font1 = pygame.font.Font('../font/font.ttf', 120)
+
+        keep = True
+
+        while keep:
+
             for event in pygame.event.get():
-                # 判断用户是否点击了关闭按钮
                 if event.type == pygame.QUIT:
-                    # 卸载所有的模块
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    x = round((x - 19.5) / 32)
+                    y = round((y - 19.5) / 32)
+                    if x < 0:
+                        x = 0
+                    if x > 18:
+                        x = 18
+                    if y < 0:
+                        y = 0
+                    if y > 18:
+                        y = 18
 
-            #获取鼠标坐标信息
-            pos_x, pos_y = pygame.mouse.get_pos()
-
-            '''
-            # 找到显示的可以落子的位置
-            def find_pos(pos_x, pos_y):
-                for i in range(27, 670, 44):
-                    for j in range(27, 670, 44):
-                        L1 = i - 22
-                        L2 = i + 22
-                        R1 = j - 22
-                        R2 = j + 22
-                        if pos_x >= L1 and pos_x <= L2 and pos_y >= R1 and pos_y <= R2:
-                            return i, j
-                return pos_x, pos_y
-
-            pos_x, pos_y = find_pos(pos_x, pos_y)
-            pygame.draw.rect(screen, [0, 229, 238], [pos_x - 22, pos_y - 22, 28, 28], 2, 1)
-            '''
-            def find_pos(pos_x, pos_y):
-                for i in range(28, 808, 39):
-                    for j in range(28, 808, 39):
-                        L1 = i - 19
-                        L2 = i + 19
-                        R1 = j - 19
-                        R2 = j + 19
-                        if pos_x >= L1 and pos_x <= L2 and pos_y >= R1 and pos_y <= R2:
-                            return i, j
-                return pos_x, pos_y
-
-            set_x, set_y = find_pos(pos_x, pos_y)
-            print(set_x,set_y)
-
-            if pos_x >= 9 and pos_x <= 788 and pos_y >= 9 and pos_y <= 788:
-                pygame.draw.rect(screen, color.Color.WHITE, [set_x - 19, set_y - 19, 38, 38], 2, 1)
-                #获取鼠标按下左键
-                keys_pressed = pygame.mouse.get_pressed()
-                if keys_pressed[0] == True:
-                    print('鼠标按下左键')
-                    print(set_x, set_y)
+                    if alist[x][y] == 0:
+                        eval(wb + "({},{})".format(x, y))
+                        if wb == "black":
+                            alist[x][y] = 1
+                            wb1 = "小黑子"
+                            wb = "white"
+                        elif wb == "white":
+                            alist[x][y] = 2
+                            wb1 = "白棋"
+                            wb = "black"
+                        xx = x
+                        yy = y
+                        while True:
+                            if xx == 0:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                xx += 1
+                                break
+                            else:
+                                xx -= 1
+                        num = 0
+                        while True:
+                            if xx == 18:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                break
+                            else:
+                                xx += 1
+                                num += 1
+                        if num >= 5:
+                            keep = end()
 
 
-            pygame.display.flip()
+                        xx = x
+                        yy = y
+                        while True:
+                            if yy == 0:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                yy += 1
+                                break
+                            else:
+                                yy -= 1
+                        num = 0
+                        while True:
+                            if yy == 18:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                break
+                            else:
+                                yy += 1
+                                num += 1
+                        if num >= 5:
+                            keep = end()
+
+
+                        xx = x
+                        yy = y
+                        while True:
+                            if xx == 0:
+                                break
+                            elif yy == 0:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                xx += 1
+                                yy += 1
+                                break
+                            else:
+                                xx -= 1
+                                yy -= 1
+                        num = 0
+                        while True:
+                            if xx == 18:
+                                break
+                            elif yy == 18:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                break
+                            else:
+                                xx += 1
+                                yy += 1
+                                num += 1
+                        if num >= 5:
+                            keep = end()
+
+
+                        xx = x
+                        yy = y
+                        while True:
+                            if xx == 0:
+                                break
+                            elif yy == 18:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                xx += 1
+                                yy -= 1
+                                break
+                            else:
+                                xx -= 1
+                                yy += 1
+                        num = 0
+                        while True:
+                            if xx == 18:
+                                break
+                            elif yy == 0:
+                                break
+                            elif alist[xx][yy] != alist[x][y]:
+                                break
+                            else:
+                                xx += 1
+                                yy -= 1
+                                num += 1
+                        if num >= 5:
+                            keep = end()
